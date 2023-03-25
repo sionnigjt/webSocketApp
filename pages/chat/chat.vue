@@ -257,7 +257,7 @@
 		.content{
 			background-color: #fff;
 			height: 64rpx;
-			padding: 0 20rpx;
+			padding: 0 10rpx;
 			border-radius: 32rpx;
 			font-size: 28rpx;
 		}

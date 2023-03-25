@@ -1,22 +1,68 @@
 {
 	"pages": [
 		{
-		    "path": "pages/index/index",
-		    "style": {
-		    	"navigationBarTitleText": "index"
-		    }
-		},{
 		    "path": "pages/login/login",
 		    "style": {
-		    	"navigationBarTitleText": "login"
+		    	"navigationBarTitleText": "登录"
 		    }
+		},
+		{
+		    "path": "pages/chat/chat",
+		    "style": {
+		    	"navigationBarTitleText": "聊天"}
+		    
+		},{
+		    "path": "pages/chatlist/chatlist",
+		    "style": {
+		    	"navigationBarTitleText": "消息界面"}
+		    
+		},{
+		    "path": "pages/my/my",
+		    "style": {
+		    	"navigationBarTitleText": "我的"}
+		    
+		},{
+		    "path": "pages/friend/friend",
+		    "style": {
+		    	"navigationBarTitleText": "好友"}
+		    
 		}
+	
 		
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "UNIAPP 源码分享-河浪",
 		"navigationBarBackgroundColor": "#42b983",
-		"backgroundColor": "#f3f3f3"
-	}
+		"backgroundColor": "#f3f3f3",
+		"enablePullDownRefresh":true,
+		"navigationStyle": "default"
+	},
+	  "tabBar": {
+	    // 设置tabBar的颜色、背景色、高度等
+	    "color": "#999999",
+	    "selectedColor": "#00a0e9",
+	    "backgroundColor": "#ffffff",
+	    "height": "50px",
+	    // 设置tabBar的列表，每个tab对应一个页面
+	    "list": [
+	      {
+	        "pagePath": "pages/chatlist/chatlist",
+	        "iconPath": "/static//tabBar/i-message.png",
+		     "text": "消息"
+	      },
+	      {
+	        "pagePath": "pages/friend/friend",
+	        "iconPath": "/static//tabBar/i-member.png",
+	    
+	        "text": "好友",
+	        "custom": true
+	      },
+		  {
+		    "pagePath": "pages/my/my",
+		    "iconPath": "/static/tabBar/i-home.png",
+			"text": "我的",
+		    "custom": true
+		  }
+	    ]
+	  }
 }

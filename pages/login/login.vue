@@ -75,11 +75,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 90vh;
   background-color: #f5f5f5;
+  overflow: hidden;
+  
 }
 .login{
-  width: 400px;
+  width: 80vw;
   height: 500px;
   background-color: #fff;
   border-radius: 10px;
