@@ -1,19 +1,19 @@
 <template>
   <view class="friend">
     <view class="friend-search">
-      <input type="text" placeholder="搜索好友" />
+      <input type="text" placeholder="搜索好友" v-model="searchText" @input="search" />
     </view>
     <view class="friend-list">
       <view class="friend-group">
-        <view class="friend-group-title">我的好友</view>
-        <view class="friend-item" v-for="(item, index) in friendList" :key="index">
+        <view class="friend-group-title" @click="toggleFriendList">我的好友{{friendListFolded ? '▼' : '▲'}}</view>
+        <view class="friend-item" v-for="(item, index) in friendList" :key="index" v-show="!friendListFolded">
           <image class="friend-avatar" :src="item.avatar" />
           <view class="friend-name">{{ item.name }}</view>
         </view>
       </view>
       <view class="friend-group">
-        <view class="friend-group-title">我的群组</view>
-        <view class="friend-item" v-for="(item, index) in groupList" :key="index">
+        <view class="friend-group-title" @click="toggleGroupList">我的群组{{groupListFolded ? '▼' : '▲'}}</view>
+        <view class="friend-item" v-for="(item, index) in groupList" :key="index" v-show="!groupListFolded">
           <image class="friend-avatar" :src="item.avatar" />
           <view class="friend-name">{{ item.name }}</view>
         </view>
@@ -54,7 +54,38 @@ export default {
           avatar: "https://img.yzcdn.cn/vant/cat.jpeg",
         },
       ],
+      
+      friendListFolded: false,
+      groupListFolded: false,
+      searchText: '',
+      oldFriendList: [],
+      oldGroupList: [],
     };
+  },
+  methods: {
+    toggleFriendList() {
+      this.friendListFolded = !this.friendListFolded;
+    },
+    toggleGroupList() {
+      this.groupListFolded = !this.groupListFolded;
+    },
+    search() {
+      if (this.searchText === '') {
+        this.friendList = this.oldFriendList;
+        this.groupList = this.oldGroupList;
+        this.friendListFolded = false;
+        this.groupListFolded = false;
+      } else {
+        if (this.oldFriendList.length === 0 && this.oldGroupList.length === 0) {
+          this.oldFriendList = this.friendList;
+          this.oldGroupList = this.groupList;
+        }
+        let filteredFriendList = this.friendList.filter(item => item.name.includes(this.searchText));
+        let filteredGroupList = this.groupList.filter(item => item.name.includes(this.searchText));
+        this.friendList = filteredFriendList;
+        this.groupList = filteredGroupList;
+      }
+    }
   },
 };
 </script>
@@ -97,6 +128,9 @@ export default {
   font-size: 28rpx;
   color: #999;
   background-color: #f5f5f5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .friend-item {

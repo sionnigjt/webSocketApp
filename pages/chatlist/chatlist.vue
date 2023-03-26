@@ -11,6 +11,7 @@
         <image class="menu" src="../../static/logo.png"></image>
       </view>
     </view>
+    <view class="gap"></view>
     <!-- 聊天列表 -->
     <scroll-view class="list" scroll-y="true">
       <view class="item" v-for="(item, index) in list" :key="index">
@@ -141,4 +142,8 @@ export default {
   margin-left: 10px;
 }
 
+.gap {
+  height: 10px;
+  background-color: #f5f5f5;
+}
 </style>
