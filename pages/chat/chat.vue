@@ -5,7 +5,7 @@
 				<view v-for="(item,index) in messageList" :key="index" :id="`msg-${item.id}`">
 					<view class="item flex_col" :class=" item.type == 1 ? 'push':'pull' ">
 						<image :src="item.pic" mode="aspectFill" class="pic"></image>
-						<chatContent :content="item.message" :viewStyle="0" :type="item.type"></chatContent>					
+						<chatContent :content="item.message" :viewStyle="0" :type="item.type"></chatContent>
 					</view>
 				</view>
 			</view>
@@ -37,23 +37,19 @@
 </template>
 
 <script>
-import chatContent from "./chatContent/chatContent.vue"
+	import chatContent from "./chatContent/chatContent.vue"
 
-							
+
 	export default {
-		props: {
-			chatData: {
-				type: Number,
-				default: () => 0
-			}
+		onLoad: function(option) {
+			console.log(option.friendId);
 		},
-		components:{
+		components: {
 			chatContent
 		},
 		data() {
 			return {
-				messageList: [
-					{
+				messageList: [{
 						id: 1,
 						message: "Hello, how are you?",
 						type: 1,
@@ -77,7 +73,7 @@ import chatContent from "./chatContent/chatContent.vue"
 		},
 		methods: {
 			send() {
-				if(this.message){
+				if (this.message) {
 					this.messageList.push({
 						id: this.messageList.length + 1,
 						message: this.message,
@@ -98,55 +94,58 @@ import chatContent from "./chatContent/chatContent.vue"
 		background-color: #F3F3F3;
 		font-size: 28rpx;
 	}
-	.contents{
-			width: 100%;
-				height: auto;
-				padding-bottom: 100rpx;
-				box-sizing: content-box;
-				
-				/* 兼容iPhoneX */
-				margin-bottom: 0;  
-				margin-bottom: constant(safe-area-inset-bottom);  
-				margin-bottom: env(safe-area-inset-bottom); 
-				.talk-list{
-						padding-bottom: 20rpx;
-						
-						/* 消息项，基础类 */
-						.item{
-							padding: 20rpx 20rpx 0 20rpx;
-							align-items:flex-start;
-							align-content:flex-start;
-							color: #333;
-							
-							.pic{
-								width: 92rpx;
-								height: 92rpx;
-								border-radius: 50%;
-								border: #fff solid 1px;
-							}
-							
-							
-							
-							/* 收到的消息 */
-							&.pull{
-								.content{
-									margin-left: 32rpx;									
-								}
-							}
-							
-							/* 发出的消息 */
-							&.push{
-								/* 主轴为水平方向，起点在右端。使不修改DOM结构，也能改变元素排列顺序 */
-								flex-direction: row-reverse;
-								
-								.content{
-									margin-right: 32rpx;
 
-								}
-							}
-						}
+	.contents {
+		width: 100%;
+		height: auto;
+		padding-bottom: 100rpx;
+		box-sizing: content-box;
+
+		/* 兼容iPhoneX */
+		margin-bottom: 0;
+		margin-bottom: constant(safe-area-inset-bottom);
+		margin-bottom: env(safe-area-inset-bottom);
+
+		.talk-list {
+			padding-bottom: 20rpx;
+
+			/* 消息项，基础类 */
+			.item {
+				padding: 20rpx 20rpx 0 20rpx;
+				align-items: flex-start;
+				align-content: flex-start;
+				color: #333;
+
+				.pic {
+					width: 92rpx;
+					height: 92rpx;
+					border-radius: 50%;
+					border: #fff solid 1px;
+				}
+
+
+
+				/* 收到的消息 */
+				&.pull {
+					.content {
+						margin-left: 32rpx;
 					}
+				}
+
+				/* 发出的消息 */
+				&.push {
+					/* 主轴为水平方向，起点在右端。使不修改DOM结构，也能改变元素排列顺序 */
+					flex-direction: row-reverse;
+
+					.content {
+						margin-right: 32rpx;
+
+					}
+				}
+			}
+		}
 	}
+
 	.input {
 		position: fixed;
 		left: 0;

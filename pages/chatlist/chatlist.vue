@@ -22,6 +22,7 @@
         <view class="right">
           <text class="message">{{ item.message }}</text>
           <text class="unread">{{ item.unread }}</text>
+          <text class="friendId">{{ item.friendId }}</text>
         </view>
       </view>
     </scroll-view>
@@ -38,19 +39,22 @@ export default {
           avatar: "../../static/logo.png",
           nickname: "聊天对象1",
           message: "最新消息1",
-          unread: 2
+          unread: 2,
+          friendId: 1
         },
         {
           avatar: "../../static/logo.png",
           nickname: "聊天对象2",
           message: "最新消息2",
-          unread: 1
+          unread: 1,
+          friendId: 2
         },
         {
           avatar: "../../static/logo.png",
           nickname: "聊天对象3",
           message: "最新消息3",
-          unread: 0
+          unread: 0,
+          friendId:3
         }
       ]
     };
@@ -140,6 +144,10 @@ export default {
   color: #fff;
   font-size: 12px;
   margin-left: 10px;
+}
+
+.friendId {
+  display: none;
 }
 
 .gap {

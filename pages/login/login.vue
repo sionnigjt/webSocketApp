@@ -8,7 +8,7 @@
 			<div class="form">
 				<input type="text" v-model="userinfo.name" class="text" placeholder="账号" ref="user"><br />
 				<input type="password" v-model="userinfo.password" class="text" placeholder="密码"><br />
-				<button @click="check_login" class="btn">登录</button>
+				<button @click="checkLogin" class="btn">登录</button>
 				<router-link to="" class="left">忘记密码?</router-link>
 				<router-link to="/pages/register/register" class="right">新用户注册</router-link>
 			</div>
@@ -20,9 +20,6 @@
 </template>
 
 <script>
-	import {
-		mapGetters
-	} from 'vuex'
 	import {
 		login
 	} from '@/server/api/login.js'
@@ -37,40 +34,30 @@
 				}
 			}
 		},
-		computed: {
-			...mapGetters(['isLogin'])
-		},
-
 		methods: {
-			validate({
-				user,
-				pwd
-			}) {
-				if (user == '') {
-					this.$store.dispatch('setShowWarn', '输入不能为空')
-					return false
+			async checkLogin() {
+				try {
+					// 1. 登录
+					const res = await login(this.userinfo)
+					console.log(res)
+					if(res.status===200){
+						// 2. 处理登录结果，保存到本地存储中
+						uni.setStorageSync("userId", res.data);
+						
+						// 3. 跳转到聊天列表页
+						uni.switchTab({
+							url: '/pages/chatlist/chatlist'
+						})
+					}
+					else{
+						//根据信息显示
+					}
+					
+				} catch (error) {
+					console.log(error)
 				}
-				if (pwd == '') {
-					this.$store.dispatch('setShowWarn', '密码不能为空')
-					return false
-				}
-				return true
-			},
-			async check_login() {
-
-				// //登录
-				// const res= await login(this.userinfo)
-				// // this.callback(res)
-				await login(this.userinfo).then(res => {
-					console.log((res))
-					uni.setStorageSync("userId", res.data);
-					uni.navigateTo({
-						url: "/pages/chatlist/chatlist"
-					})
-
-				})
-
 			}
+
 
 		}
 

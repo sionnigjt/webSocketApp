@@ -7,11 +7,25 @@
 		    }
 		},
 		{
+		    "path": "pages/chatlist/chatlist",
+		    "style": {
+		    	"navigationBarTitleText": "消息界面"}
+		    
+		},
+		
+		{
+		    "path": "pages/login/login",
+		    "style": {
+		    	"navigationBarTitleText": "登录"
+		    }
+		},
+		{
 		    "path": "pages/chat/chat",
 		    "style": {
 		    	"navigationBarTitleText": "聊天"}
 		    
-		},{
+		},
+		{
 		    "path": "pages/chatlist/chatlist",
 		    "style": {
 		    	"navigationBarTitleText": "消息界面"}

@@ -6,14 +6,14 @@
     <view class="friend-list">
       <view class="friend-group">
         <view class="friend-group-title" @click="toggleFriendList">我的好友{{friendListFolded ? '▼' : '▲'}}</view>
-        <view class="friend-item" v-for="(item, index) in friendList" :key="index" v-show="!friendListFolded">
+        <view class="friend-item" v-for="(item, index) in friendList" :key="index" v-show="!friendListFolded" @click="goToFriendChat(item.friendId)">
           <image class="friend-avatar" :src="item.avatar" />
           <view class="friend-name">{{ item.name }}</view>
         </view>
       </view>
       <view class="friend-group">
         <view class="friend-group-title" @click="toggleGroupList">我的群组{{groupListFolded ? '▼' : '▲'}}</view>
-        <view class="friend-item" v-for="(item, index) in groupList" :key="index" v-show="!groupListFolded">
+        <view class="friend-item" v-for="(item, index) in groupList" :key="index" v-show="!groupListFolded" @click="goToGroupChat(item.groupId)">
           <image class="friend-avatar" :src="item.avatar" />
           <view class="friend-name">{{ item.name }}</view>
         </view>
@@ -30,28 +30,34 @@ export default {
         {
           name: "张三",
           avatar: "https://img.yzcdn.cn/vant/cat.jpeg",
+          friendId: 1,
         },
         {
           name: "李四",
           avatar: "https://img.yzcdn.cn/vant/cat.jpeg",
+          friendId: 2,
         },
         {
           name: "王五",
           avatar: "https://img.yzcdn.cn/vant/cat.jpeg",
+          friendId: 3,
         },
       ],
       groupList: [
         {
           name: "前端交流群",
           avatar: "https://img.yzcdn.cn/vant/cat.jpeg",
+          groupId: 1,
         },
         {
           name: "后端交流群",
           avatar: "https://img.yzcdn.cn/vant/cat.jpeg",
+          groupId: 2,
         },
         {
           name: "产品交流群",
           avatar: "https://img.yzcdn.cn/vant/cat.jpeg",
+          groupId: 3,
         },
       ],
       
@@ -85,7 +91,18 @@ export default {
         this.friendList = filteredFriendList;
         this.groupList = filteredGroupList;
       }
-    }
+    },
+    goToGroupChat(id) {
+      uni.navigateTo({
+        url: '/pages/chat/chat?groupId=' + id
+      })
+    },
+	// goToFriendChat(id){
+ //      uni.navigateTo({
+ //        url: '/pages/chat/chat?friendId=' + id
+ //      })
+ //    },
+	
   },
 };
 </script>
@@ -150,5 +167,12 @@ export default {
 .friend-name {
   font-size: 28rpx;
   color: #333;
+}
+</style>
+
+.friend-id {
+  font-size: 28rpx;
+  color: #999;
+  margin-left: 20rpx;
 }
 </style>
