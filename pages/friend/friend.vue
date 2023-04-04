@@ -92,16 +92,16 @@ export default {
         this.groupList = filteredGroupList;
       }
     },
-    goToGroupChat(id) {
+    // goToGroupChat(id) {
+    //   uni.navigateTo({
+    //     url: '/pages/chat/chat?groupId=' + id
+    //   })
+    // },
+	goToFriendChat(id){
       uni.navigateTo({
-        url: '/pages/chat/chat?groupId=' + id
+        url: '/pages/chat/chat?friendId=' + id
       })
     },
-	// goToFriendChat(id){
- //      uni.navigateTo({
- //        url: '/pages/chat/chat?friendId=' + id
- //      })
- //    },
 	
   },
 };

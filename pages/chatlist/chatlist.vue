@@ -47,14 +47,14 @@ export default {
           nickname: "聊天对象2",
           message: "最新消息2",
           unread: 1,
-          friendId: 2
+          friendId: 10000000
         },
         {
           avatar: "../../static/logo.png",
           nickname: "聊天对象3",
           message: "最新消息3",
           unread: 0,
-          friendId:3
+          friendId:30
         }
       ]
     };

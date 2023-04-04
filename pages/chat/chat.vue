@@ -39,10 +39,11 @@
 <script>
 	import chatContent from "./chatContent/chatContent.vue"
 
-
 	export default {
+
 		onLoad: function(option) {
-			console.log(option.friendId);
+			this.friendId = option?.friendId;
+			console.log(option?.friendId);
 		},
 		components: {
 			chatContent
@@ -68,7 +69,8 @@
 						pic: "https://picsum.photos/200/300"
 					}
 				],
-				message: ''
+				message: '',
+				friendId: 0,
 			}
 		},
 		methods: {
@@ -80,10 +82,65 @@
 						type: 1,
 						pic: "https://picsum.photos/200/300"
 					})
+					uni.sendSocketMessage({
+						data: this.message,
+						success(res) {
+							console.log(res);
+						},
+						fail(err) {
+							console.log(err);
+						}
+					})
 					this.message = ''
+
 				}
+			},
+			addData(data) {
+
 			}
+		},
+
+		mounted() {
+			let userId;
+			uni.getStorage({
+				key: "userId",
+				success: function(res) {
+					userId = res.data;
+				}
+			})
+			userId = userId ? userId : 1
+			uni.connectSocket({
+				url: `ws://localhost:8080/api/websocket/${userId}/${this.friendId}`,
+				success(res) {
+					// 这里是接口调用成功的回调，不是连接成功的回调，请注意
+				},
+				fail(err) {
+					// 这里是接口调用失败的回调，不是连接失败的回调，请注意
+				}
+			})
+		},
+		updated() {
+
+			uni.onSocketMessage((res) => {
+				console.log(res.data)
+				this.messageList.push({
+					id: 3,
+					message: res.data,
+					type: 2,
+					pic: "https://picsum.photos/200/300"
+				})
+			})
+		},
+		destroyed() {
+			uni.onSocketClose((res) => {
+				this.connected = false
+				this.startRecive = false
+				this.msg = false;
+				this.close();
+
+			})
 		}
+
 	}
 </script>
 

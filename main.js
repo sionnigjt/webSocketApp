@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-
-
+//挂载到全局
 Vue.config.productionTip = false
 App.mpType = 'app'
 

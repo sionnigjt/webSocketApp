@@ -12,6 +12,14 @@
 		    	"navigationBarTitleText": "消息界面"}
 		    
 		},
+		{
+		    "path": "pages/chatlist/chatlist",
+		    "style": {
+		    	"navigationBarTitleText": "消息界面"}
+		    
+		},
+	
+		
 		
 		{
 		    "path": "pages/login/login",
@@ -25,12 +33,7 @@
 		    	"navigationBarTitleText": "聊天"}
 		    
 		},
-		{
-		    "path": "pages/chatlist/chatlist",
-		    "style": {
-		    	"navigationBarTitleText": "消息界面"}
-		    
-		},{
+	{
 		    "path": "pages/my/my",
 		    "style": {
 		    	"navigationBarTitleText": "我的"}
