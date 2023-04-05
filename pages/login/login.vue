@@ -22,7 +22,7 @@
 <script>
 	import {
 		login
-	} from '@/server/api/login.js'
+	} from '../../server/api/login.js'
 
 	export default {
 		name: 'login',
@@ -40,7 +40,7 @@
 					// 1. 登录
 					const res = await login(this.userinfo)
 					console.log(res)
-					if(res.status===200){
+					if(res.statusCode===200){
 						// 2. 处理登录结果，保存到本地存储中
 						uni.setStorageSync("userId", res.data);
 						
@@ -48,13 +48,28 @@
 						uni.switchTab({
 							url: '/pages/chatlist/chatlist'
 						})
+						//根据信息显示
+						uni.showToast({ 
+						    title: '登录成功', 
+						    duration: 2000
+						});
 					}
 					else{
 						//根据信息显示
+						uni.showToast({ 
+						    title: '账号或密码错误', 
+							icon:'error',
+						    duration: 2000
+						});
 					}
 					
 				} catch (error) {
 					console.log(error)
+					uni.showToast({ 
+					    title: '网络错误', 
+						icon:'error',
+					    duration: 2000
+					});
 				}
 			}
 

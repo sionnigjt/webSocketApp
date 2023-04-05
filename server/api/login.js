@@ -1,10 +1,11 @@
-import { get, post, put, del } from '../axios/request.js'
+import {request} from './request/request.js'
+
+export function login (data) {  //登录
+	return request({
+		url:'login',
+		method:'post',
+		data:data
+	})
 
 
-export  const login=(data)=>{
-	// 使用post方法提交数据
-	return post('/login', data);
-	
 }
-
-
