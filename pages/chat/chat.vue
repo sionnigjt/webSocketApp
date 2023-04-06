@@ -101,14 +101,7 @@
 		},
 
 		mounted() {
-			let userId;
-			uni.getStorage({
-				key: "userId",
-				success: function(res) {
-					userId = res.data;
-				}
-			})
-			userId = userId ? userId : 1
+			let userId = uni.getStorageSync('userId');
 			uni.connectSocket({
 				url: `ws://localhost:8080/api/websocket/${userId}/${this.friendId}`,
 				success(res) {
@@ -164,7 +157,7 @@
 		margin-bottom: env(safe-area-inset-bottom);
 
 		.talk-list {
-			padding-bottom: 20rpx;
+			padding-bottom: 80rpx;
 
 			/* 消息项，基础类 */
 			.item {
@@ -177,7 +170,7 @@
 					width: 92rpx;
 					height: 92rpx;
 					border-radius: 50%;
-					border: #fff solid 1px;
+					border: #fff solid 1rpx;
 				}
 
 

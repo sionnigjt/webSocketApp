@@ -25,7 +25,9 @@
 </template>
 
 <script>
-	import {getFirendList} from '@/server/api/friend.js';
+	import {
+		getFirendList
+	} from '@/server/api/friend.js';
 	export default {
 		data() {
 			return {
@@ -66,9 +68,7 @@
 				friendListFolded: false,
 				groupListFolded: false,
 				searchText: '',
-				oldFriendList: [],
-				oldGroupList: [],
-				userId: 1
+				userId: undefined
 			};
 		},
 		methods: {
@@ -96,9 +96,9 @@
 				}
 			},
 			goToGroupChat(id) {
-			  // uni.navigateTo({
-			  //   url: '/pages/chat/chat?groupId=' + id
-			  // })
+				// uni.navigateTo({
+				//   url: '/pages/chat/chat?groupId=' + id
+				// })
 			},
 			goToFriendChat(id) {
 				uni.navigateTo({
@@ -106,25 +106,20 @@
 				})
 			},
 			async initFirendList() {
-				uni.getStorage({
-					key: "userId",
-					success: function(res) {
-						this.userId = res.data;
-					}
-				})
-				let res= await getFirendList(this.userId)
-				console.log(res)
+				this.userId = uni.getStorageSync('userId');
+				let res = await getFirendList(this.userId)
+				console.log(this.userId, res)
 				if (res.statusCode == 200) {
-					this.friendList=res.data
-				} else{
-					
+					this.friendList = res.data
+				} else {
+
 				}
 
 			}
 		},
-		 mounted() {
-		        this.initFirendList();
-		    },
+		mounted() {
+			this.initFirendList();
+		},
 	};
 </script>
 
