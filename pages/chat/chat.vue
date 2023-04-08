@@ -23,7 +23,7 @@
 					<image src="../../static/chat/yuyin.png" mode="aspectFit" class="icon"></image>
 				</view>
 				<view class="icon_item">
-					<image src="../../static/chat/tupian.png" mode="aspectFit" class="icon"></image>
+					<image src="../../static/chat/tupian.png" mode="aspectFit" class="icon" :tap="sendFile"></image>
 				</view>
 				<view class="icon_item">
 					<image src="../../static/chat/biaoqing.png" mode="aspectFit" class="icon"></image>
@@ -43,7 +43,13 @@
 
 		onLoad: function(option) {
 			this.friendId = option?.friendId;
+			// 	if(option?.friendId>0){
+			// 		uni.setStorageSync("friendId",this.friendId)
+			// }else{
+			// 			this.friendId=uni.getStorageSync('friendId');
+			// }
 			console.log(option?.friendId);
+
 		},
 		components: {
 			chatContent
@@ -71,6 +77,8 @@
 				],
 				message: '',
 				friendId: 0,
+				isInit: false,
+				socketTask: null
 			}
 		},
 		methods: {
@@ -82,10 +90,10 @@
 						type: 1,
 						pic: "https://picsum.photos/200/300"
 					})
-					uni.sendSocketMessage({
+					this.socketTask.send({
 						data: this.message,
 						success(res) {
-							console.log(res);
+							// console.log(res);
 						},
 						fail(err) {
 							console.log(err);
@@ -95,43 +103,100 @@
 
 				}
 			},
+			sendFile() {
+				uni.chooseImage({
+					count: 1,
+					success: function(res) {
+						var tempFilePaths = res.tempFilePaths;
+						uni.uploadFile({
+							url: 'http://localhost:8080/api/file/uploadFile',
+							filePath: tempFilePaths[0],
+							name: 'file',
+							success: function(res) {
+								console.log('uploadFile success, res is:', res);
+							},
+							fail: function({
+								errMsg
+							}) {
+								console.log('uploadFile fail, errMsg is', errMsg);
+							}
+						});
+					}
+				});
+			},
+
 			addData(data) {
+
+			},
+			onMessage() {
+				this.socketTask.onOpen((res) => {
+					this.socketTask.onMessage((res) => {
+						console.log(res.data)
+						this.messageList.push({
+							id: 4,
+							message: res.data,
+							type: 2,
+							pic: "https://picsum.photos/200/300"
+						})
+					})
+				})
+
 
 			}
 		},
-
 		mounted() {
 			let userId = uni.getStorageSync('userId');
-			uni.connectSocket({
+			this.socketTask = uni.connectSocket({
 				url: `ws://localhost:8080/api/websocket/${userId}/${this.friendId}`,
 				success(res) {
 					// 这里是接口调用成功的回调，不是连接成功的回调，请注意
+					console.log(res)
+
 				},
 				fail(err) {
 					// 这里是接口调用失败的回调，不是连接失败的回调，请注意
 				}
 			})
+
+			// 消息的发送和接收必须在正常连接打开中,才能发送或接收【否则会失败】
+			this.socketTask.onOpen((res) => {
+				console.log("WebSocket连接正常打开中...！");
+				// 注：只有连接正常打开中 ，才能正常成功发送消息
+				this.socketTask.send({
+					data: "init",
+					async success() {
+						console.log("消息发送成功");
+					},
+				});
+				this.socketTask.onMessage((res) => {
+					console.log(res.data)
+					this.messageList.push({
+						id: 5,
+						message: res.data,
+						type: 2,
+						pic: "https://picsum.photos/200/300"
+					})
+				})
+			});
+
 		},
+
 		updated() {
 
-			uni.onSocketMessage((res) => {
-				console.log(res.data)
-				this.messageList.push({
-					id: 3,
-					message: res.data,
-					type: 2,
-					pic: "https://picsum.photos/200/300"
-				})
-			})
-		},
-		destroyed() {
-			uni.onSocketClose((res) => {
-				this.connected = false
-				this.startRecive = false
-				this.msg = false;
-				this.close();
+			this.onMessage()
 
+		},
+		beforeDestroy() {
+			console.log("页面关闭了")
+			this.socketTask.onOpen((res) => {
+				this.socketTask.onClose(() => {
+					console.log("websocket已经被关闭了");
+				});
 			})
+			uni.closeSocket({
+				code:1000
+			})
+
 		}
 
 	}
