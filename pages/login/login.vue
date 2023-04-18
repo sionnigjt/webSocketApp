@@ -39,11 +39,12 @@
 				try {
 					// 1. 登录
 					const res = await login(this.userinfo)
+			
 					console.log(res)
 					if(res.statusCode===200){
 						// 2. 处理登录结果，保存到本地存储中
-						uni.setStorageSync("userId", res.data);
-						
+						uni.setStorageSync("userId", res.data.userId);
+						uni.setStorageSync("imgUrl", res.data.imgUrl);
 						// 3. 跳转到聊天列表页
 						uni.switchTab({
 							url: '/pages/chatlist/chatlist'

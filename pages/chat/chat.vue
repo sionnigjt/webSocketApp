@@ -49,6 +49,7 @@
 			// 			this.friendId=uni.getStorageSync('friendId');
 			// }
 			console.log(option?.friendId);
+			this.imgUrl=uni.getStorageSync("imgUrl")
 
 		},
 		components: {
@@ -61,7 +62,8 @@
 				message: '',
 				friendId: 0,
 				isInit: false,
-				socketTask: null
+				socketTask: null,
+				imgUrl:""
 			}
 		},
 		methods: {
@@ -71,7 +73,7 @@
 						id: this.messageList.length + 1,
 						message: this.message,
 						type: 1,
-						pic: "http://sion.link:9000/img/2023-04-13/e7a0b617-2a62-47ec-bd8f-66f6eac3df61.jpg"
+						pic: this.imgUrl
 					})
 					this.socketTask.send({
 						data: this.message,
@@ -119,9 +121,9 @@
 						console.log( data)
 						this.messageList.push({
 							id: 4,
-							message: "13",
+							message: data.message,
 							type: 2,
-							pic: "http://sion.link:9000/img/2023-04-18/5e49297d-2a4a-4828-b40c-3b3effabb168.jpg"
+							pic: data.imgUrl
 						})
 					})
 				})
