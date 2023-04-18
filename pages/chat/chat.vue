@@ -56,24 +56,7 @@
 		},
 		data() {
 			return {
-				messageList: [{
-						id: 1,
-						message: "Hello, how are you?",
-						type: 1,
-						pic: "https://picsum.photos/200/300"
-					},
-					{
-						id: 2,
-						message: "I'm fine, thank you. And you?",
-						type: 2,
-						pic: "https://picsum.photos/200/300"
-					},
-					{
-						id: 3,
-						message: "I'm good too. Thanks for asking.",
-						type: 1,
-						pic: "https://picsum.photos/200/300"
-					}
+				messageList: [
 				],
 				message: '',
 				friendId: 0,
@@ -88,7 +71,7 @@
 						id: this.messageList.length + 1,
 						message: this.message,
 						type: 1,
-						pic: "https://picsum.photos/200/300"
+						pic: "http://sion.link:9000/img/2023-04-13/e7a0b617-2a62-47ec-bd8f-66f6eac3df61.jpg"
 					})
 					this.socketTask.send({
 						data: this.message,
@@ -131,12 +114,14 @@
 			onMessage() {
 				this.socketTask.onOpen((res) => {
 					this.socketTask.onMessage((res) => {
-						console.log(res.data)
+						
+						let data=JSON.parse(res.data)
+						console.log( data)
 						this.messageList.push({
 							id: 4,
-							message: res.data,
+							message: "13",
 							type: 2,
-							pic: "https://picsum.photos/200/300"
+							pic: "http://sion.link:9000/img/2023-04-18/5e49297d-2a4a-4828-b40c-3b3effabb168.jpg"
 						})
 					})
 				})
@@ -169,12 +154,13 @@
 					},
 				});
 				this.socketTask.onMessage((res) => {
+					let data=JSON.parse(res.data)
 					console.log(res.data)
 					this.messageList.push({
 						id: 5,
-						message: res.data,
+						message: data.message,
 						type: 2,
-						pic: "https://picsum.photos/200/300"
+						pic: data.imgUrl,
 					})
 				})
 			});
