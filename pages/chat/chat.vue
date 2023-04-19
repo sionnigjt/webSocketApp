@@ -49,25 +49,33 @@
 			// 			this.friendId=uni.getStorageSync('friendId');
 			// }
 			console.log(option?.friendId);
-			this.imgUrl=uni.getStorageSync("imgUrl")
-
+			this.imgUrl = uni.getStorageSync("imgUrl")
+			setTimeout(() => {
+				uni.pageScrollTo({
+					scrollTop: 999999, //滚动到页面的目标位置（单位px）
+					duration: 0 //滚动动画的时长，默认300ms，单位 ms
+				});
+			}, 100)
 		},
 		components: {
 			chatContent
 		},
 		data() {
 			return {
-				messageList: [
-				],
+				messageList: [],
 				message: '',
 				friendId: 0,
 				isInit: false,
 				socketTask: null,
-				imgUrl:""
+				imgUrl: ""
 			}
 		},
 		methods: {
 			send() {
+				let json = JSON.stringify({
+					"message": this.message,
+					"type": 0
+				})
 				if (this.message) {
 					this.messageList.push({
 						id: this.messageList.length + 1,
@@ -76,7 +84,7 @@
 						pic: this.imgUrl
 					})
 					this.socketTask.send({
-						data: this.message,
+						data: json,
 						success(res) {
 							// console.log(res);
 						},
@@ -87,6 +95,13 @@
 					this.message = ''
 
 				}
+				setTimeout(() => {
+					uni.pageScrollTo({
+						scrollTop: 999999, //滚动到页面的目标位置（单位px）
+						duration: 0 //滚动动画的时长，默认300ms，单位 ms
+					});
+				}, 100)
+
 			},
 			sendFile() {
 				uni.chooseImage({
@@ -116,9 +131,9 @@
 			onMessage() {
 				this.socketTask.onOpen((res) => {
 					this.socketTask.onMessage((res) => {
-						
-						let data=JSON.parse(res.data)
-						console.log( data)
+
+						let data = JSON.parse(res.data)
+						console.log(data)
 						this.messageList.push({
 							id: 4,
 							message: data.message,
@@ -156,12 +171,12 @@
 					},
 				});
 				this.socketTask.onMessage((res) => {
-					let data=JSON.parse(res.data)
+					let data = JSON.parse(res.data)
 					console.log(res.data)
 					this.messageList.push({
 						id: 5,
 						message: data.message,
-						type: 2,
+						type: data.type,
 						pic: data.imgUrl,
 					})
 				})
@@ -170,8 +185,13 @@
 		},
 
 		updated() {
-
-			this.onMessage()
+		setTimeout(() => {
+			uni.pageScrollTo({
+				scrollTop: 999999, //滚动到页面的目标位置（单位px）
+				duration: 0 //滚动动画的时长，默认300ms，单位 ms
+			});
+		}, 100)
+			// this.onMessage()
 
 		},
 		beforeDestroy() {
@@ -182,7 +202,7 @@
 				});
 			})
 			uni.closeSocket({
-				code:1000
+				code: 1000
 			})
 
 		}
