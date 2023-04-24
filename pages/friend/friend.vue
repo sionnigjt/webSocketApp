@@ -64,7 +64,8 @@
 						groupId: 3,
 					},
 				],
-
+				oldFriendList:[],
+				oldGroupList:[],
 				friendListFolded: false,
 				groupListFolded: false,
 				searchText: '',
@@ -111,6 +112,8 @@
 				console.log(this.userId, res)
 				if (res.statusCode == 200) {
 					this.friendList = res.data
+					this.oldFriendList=res.data
+					this.oldGroupList=this.groupList
 				} else {
 
 				}

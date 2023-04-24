@@ -45,6 +45,7 @@
 						// 2. 处理登录结果，保存到本地存储中
 						uni.setStorageSync("userId", res.data.userId);
 						uni.setStorageSync("imgUrl", res.data.imgUrl);
+						uni.setStorageSync("name", res.data.name);
 						// 3. 跳转到聊天列表页
 						uni.switchTab({
 							url: '/pages/chatlist/chatlist'
