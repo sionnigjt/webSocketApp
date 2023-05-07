@@ -50,12 +50,7 @@
 			// }
 			console.log(option?.friendId);
 			this.imgUrl = uni.getStorageSync("imgUrl")
-			setTimeout(() => {
-				uni.pageScrollTo({
-					scrollTop: 999999, //滚动到页面的目标位置（单位px）
-					duration: 0 //滚动动画的时长，默认300ms，单位 ms
-				});
-			}, 100)
+		
 		},
 		components: {
 			chatContent
@@ -147,6 +142,12 @@
 			}
 		},
 		mounted() {
+			setTimeout(() => {
+				uni.pageScrollTo({
+					scrollTop: 9999, //滚动到页面的目标位置（单位px）
+					duration: 20 //滚动动画的时长，默认300ms，单位 ms
+				});
+			}, 1)
 			let userId = uni.getStorageSync('userId');
 			this.socketTask = uni.connectSocket({
 				url: `ws://localhost:8080/api/websocket/${userId}/${this.friendId}`,

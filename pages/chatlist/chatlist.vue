@@ -1,56 +1,38 @@
 <template>
 	<view class="chatlist">
-		<!-- 顶部导航栏 -->
-		<view class="nav">
-			<view class="left">
-				<image class="avatar" :src="localImgUrl"></image>
-				<text class="nickname">{{localUserName}}</text>
-			</view>
-			<view class="right">
-				<input class="search" type="text" placeholder="搜索"></input>
-				<image class="menu" src="../../static/logo.png"></image>
-			</view>
-		</view>
-		<view class="gap"></view>
+
 		<!-- 聊天列表 -->
-		<scroll-view class="list" scroll-y="true">
-			<view class="item" v-for="(item, index) in chatList" :key="index" @click="goToFriendChat(item.friendId)">
-				<view class="left">
-					<image class="avatar" :src="item.imgUrl"></image>
-					<text class="nickname">{{ item.name }}</text>
-				</view>
-				<view class="right">
-					<text class="message">{{ item.message }}</text>
-					<text class="unread">{{ item.unread }}</text>
-					<text class="friendId">{{ item.friendId }}</text>
-				</view>
-			</view>
-		</scroll-view>
+		<uni-list>
+			<uni-list :border="true" v-for="(item, index) in chatList" :key="index">
+				<!-- 头像显示角标 -->
+				<uni-list-chat :title="item.name" :avatar="item.imgUrl" :note="item.content" :time="formatTime(item.time)"
+					badge-positon="left" :badge-text="item.unread" :clickable="true"
+					@click="goToFriendChat(item.sendId)"></uni-list-chat>
+			</uni-list>
+		</uni-list>
+
+
 	</view>
 </template>
 
 <script>
 	import {
-		getFirendList
-	} from '@/server/api/friend.js';
+		getChatList
+	} from '@/server/api/chatlist.js';
 	export default {
 
 		data() {
 			return {
 				chatList: [{
-						imgUrl: "../../static/logo.png",
-						name: "聊天对象1",
-						message: "最新消息1",
-						unread: 2,
-						friendId: 1
+						id: "",
+						imgUrl: "",
+						name: "",
+						content: "",
+						unread: 0,
+						sendId: 1,
+						time: "",
 					},
-					{
-						imgUrl: "../../static/logo.png",
-						name: "聊天对象2",
-						message: "最新消息2",
-						unread: 1,
-						friendId: 10000000
-					},
+
 				],
 				localUserName: '',
 				localImgUrl: ''
@@ -59,10 +41,11 @@
 		methods: {
 			async initFirendList() {
 				this.userId = uni.getStorageSync('userId');
-				let res = await getFirendList(this.userId)
+				let res = await getChatList(this.userId)
 				console.log(this.userId, res)
 				if (res.statusCode == 200) {
 					this.chatList = res.data
+					// uni.setStorageSync("chatList", res.data);
 					console.log(res.data)
 				} else {
 
@@ -70,15 +53,32 @@
 
 			},
 			goToFriendChat(id) {
+				// console.log("go")
 				uni.navigateTo({
 					url: '/pages/chat/chat?friendId=' + id
 				})
-			}
+			},
+			formatTime(timeString) {
+				const date = new Date(timeString);
+				const year = date.getFullYear();
+				const month = String(date.getMonth() + 1).padStart(2, '0');
+				const day = String(date.getDate()).padStart(2, '0');
+				const hour = String(date.getHours()).padStart(2, '0');
+				const minute = String(date.getMinutes()).padStart(2, '0');
+				return `${year}-${month}-${day} ${hour}:${minute}`;
+			},
+		
 		},
-		mounted() {
+		beforeMount() {
 			this.initFirendList()
 			this.localUserName = uni.getStorageSync("name")
 			this.localImgUrl = uni.getStorageSync("imgUrl")
+		},
+		mounted() {
+				this.initFirendList()
+		},
+		beforeUpdate() {
+		
 		}
 
 
