@@ -1,6 +1,7 @@
 <template>
 	<view class="chatlist">
-
+		
+	<uni-nav-bar  height="80rpx" @clickLeft="gotoUser()" @clickRight="goToAddFriend()" :border="false" left-icon="person" right-icon="plusempty" title="聊天" style="padding-bottom: 5px;"/>
 		<!-- 聊天列表 -->
 		<uni-list>
 			<uni-list :border="true" v-for="(item, index) in chatList" :key="index">
@@ -35,7 +36,8 @@
 
 				],
 				localUserName: '',
-				localImgUrl: ''
+				localImgUrl: '',
+				isUpdate:false
 			};
 		},
 		methods: {
@@ -67,20 +69,32 @@
 				const minute = String(date.getMinutes()).padStart(2, '0');
 				return `${year}-${month}-${day} ${hour}:${minute}`;
 			},
-		
+		gotoUser(){
+			uni.switchTab({
+				url: '../my/my',
+				duration:"200",
+			})
+		},
+		goToAddFriend(){
+			uni.navigateTo({
+				url: '../addFriend/addFriend',
+				
+			})
+		}
 		},
 		beforeMount() {
 			this.initFirendList()
 			this.localUserName = uni.getStorageSync("name")
 			this.localImgUrl = uni.getStorageSync("imgUrl")
 		},
-		mounted() {
+		onShow() {
+			// 正常进入该页面的获取数据
+			this.initFirendList()
+			// 从详情页返回该页面的获取数据
+			uni.$on('refreshData',() => {
 				this.initFirendList()
+			})
 		},
-		beforeUpdate() {
-		
-		}
-
 
 	};
 </script>
@@ -92,89 +106,5 @@
 		height: 100%;
 	}
 
-	.nav {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 44px;
-		padding: 0 15px;
-		background-color: #fff;
-		box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-	}
-
-	.left {
-		display: flex;
-		align-items: center;
-	}
-
-	.avatar {
-		width: 30px;
-		height: 30px;
-		border-radius: 50%;
-		margin-right: 10px;
-	}
-
-	.nickname {
-		font-size: 16px;
-		color: #333;
-	}
-
-	.right {
-		display: flex;
-		align-items: center;
-	}
-
-	.search {
-		width: 150px;
-		height: 30px;
-		border: none;
-		border-radius: 15px;
-		padding: 0 10px;
-		margin-right: 10px;
-		background-color: #f5f5f5;
-		font-size: 14px;
-		color: #999;
-	}
-
-	.menu {
-		width: 30px;
-		height: 30px;
-	}
-
-	.list {
-		flex: 1;
-		background-color: #f5f5f5;
-	}
-
-	.item {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 60px;
-		padding: 0 15px;
-		background-color: #fff;
-		border-bottom: 1px solid #eee;
-	}
-
-	.unread {
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-		line-height: 20px;
-		text-align: center;
-		border-radius: 50%;
-		background-color: #f00;
-		color: #fff;
-		font-size: 12px;
-		margin-left: 10px;
-	}
-
-	.friendId {
-		display: none;
-	}
-
-	.gap {
-		height: 10px;
-		background-color: #f5f5f5;
-	}
+	
 </style>

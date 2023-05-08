@@ -1,9 +1,11 @@
 <template>
   <view class="container">
-    <view class="avatar"></view>
+    <view class="avatar">
+		<img :src="userInfo.img" alt="" srcset="">
+	</view>
     <view class="info">
-      <view class="name">{{name}}</view>
-      <view class="desc">{{desc}}</view>
+      <view class="name">{{userInfo.name}}</view>
+      <view class="desc">{{userInfo.signature}}</view>
     </view>
     <view class="list">
       <view class="item" v-for="(item, index) in list" :key="index">
@@ -18,10 +20,24 @@
 export default {
   data() {
     return {
-      name: '张三',
-      desc: '这个人很懒，什么都没有留下',
+		userInfo:{
+			name: '张三',
+			signature: '这个人很懒，什么都没有留下',
+			img:""
+		},
       list: ['我的订单', '我的收藏', '我的地址', '联系客服']
     }
+  }
+  ,
+  methods:{
+	  initData(){
+		  this.userInfo.name=uni.getStorageSync('name');
+		  this.userInfo.img=uni.getStorageSync('imgUrl');
+		  this.userInfo.signature=uni.getStorageSync('signature');
+	  }
+  },
+  mounted() {
+  	this.initData()
   }
 }
 </script>
@@ -34,7 +50,7 @@ export default {
   padding-top: 100rpx;
 }
 
-.avatar {
+.avatar img{
   width: 200rpx;
   height: 200rpx;
   border-radius: 50%;

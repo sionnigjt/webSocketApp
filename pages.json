@@ -57,7 +57,7 @@
 		"navigationBarBackgroundColor": "#42b983",
 		"backgroundColor": "#f3f3f3",
 		"enablePullDownRefresh":true,
-		"navigationStyle": "default"
+		"navigationStyle": "custom"
 	},
 	  "tabBar": {
 	    // 设置tabBar的颜色、背景色、高度等

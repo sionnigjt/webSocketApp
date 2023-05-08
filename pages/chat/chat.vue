@@ -1,11 +1,14 @@
 <template>
 	<view>
+		<uni-nav-bar fixed="true" :border="false" left-icon="left" leftText="返回" rightText="设置" title="标题"
+			@clickLeft="goBack()" />
 		<view class="contents" id="list-box">
 			<view class="talk-list">
 				<view v-for="(item,index) in messageList" :key="index" :id="`msg-${item.id}`">
 					<view class="item flex_col" :class=" item.type == 1 ? 'push':'pull' ">
 						<image :src="item.pic" mode="aspectFill" class="pic"></image>
-						<chatContent :content="item.message" :viewStyle="0" :type="item.type"></chatContent>
+						<chatContent :content="item.message" :viewStyle="item.viewStyle" :type="item.type">
+						</chatContent>
 					</view>
 				</view>
 			</view>
@@ -22,7 +25,7 @@
 				<view class="icon_item">
 					<image src="../../static/chat/yuyin.png" mode="aspectFit" class="icon"></image>
 				</view>
-				<view class="icon_item">
+				<view class="icon_item" @click="sendFile()">
 					<image src="../../static/chat/tupian.png" mode="aspectFit" class="icon" :tap="sendFile"></image>
 				</view>
 				<view class="icon_item">
@@ -50,7 +53,7 @@
 			// }
 			console.log(option?.friendId);
 			this.imgUrl = uni.getStorageSync("imgUrl")
-		
+
 		},
 		components: {
 			chatContent
@@ -62,10 +65,12 @@
 				friendId: 0,
 				isInit: false,
 				socketTask: null,
-				imgUrl: ""
 			}
 		},
 		methods: {
+			goBack() {
+				uni.navigateBack()
+			},
 			send() {
 				let json = JSON.stringify({
 					"message": this.message,
@@ -76,6 +81,7 @@
 						id: this.messageList.length + 1,
 						message: this.message,
 						type: 1,
+						viewStyle: 0,
 						pic: this.imgUrl
 					})
 					this.socketTask.send({
@@ -98,16 +104,42 @@
 				}, 100)
 
 			},
+
 			sendFile() {
+				const pushImgData = (imgUrl) => {
+					this.messageList.push({
+						id: this.messageList.length + 1,
+						message: imgUrl,
+						type: 1,
+						viewStyle: 1,
+						pic: this.imgUrl
+					});
+					let json = JSON.stringify({
+						"message": imgUrl,
+						"type": 1
+					})
+					this.socketTask.send({
+						data: json,
+						success(res) {
+							// console.log(res);
+						},
+						fail(err) {
+							console.log(err);
+						}
+					})
+				};
+				let sendImg = ""
 				uni.chooseImage({
 					count: 1,
 					success: function(res) {
-						var tempFilePaths = res.tempFilePaths;
+						let tempFilePaths = res.tempFilePaths;
 						uni.uploadFile({
 							url: 'http://localhost:8080/api/file/uploadFile',
 							filePath: tempFilePaths[0],
 							name: 'file',
 							success: function(res) {
+								pushImgData(res.data)
+							
 								console.log('uploadFile success, res is:', res);
 							},
 							fail: function({
@@ -118,6 +150,12 @@
 						});
 					}
 				});
+				setTimeout(() => {
+					uni.pageScrollTo({
+						scrollTop: 999999, //滚动到页面的目标位置（单位px）
+						duration: 0 //滚动动画的时长，默认300ms，单位 ms
+					});
+				}, 100)
 			},
 
 			addData(data) {
@@ -128,11 +166,11 @@
 					this.socketTask.onMessage((res) => {
 
 						let data = JSON.parse(res.data)
-						console.log(data)
 						this.messageList.push({
 							id: 4,
 							message: data.message,
 							type: 2,
+							viewStyle: 0,
 							pic: data.imgUrl
 						})
 					})
@@ -173,11 +211,11 @@
 				});
 				this.socketTask.onMessage((res) => {
 					let data = JSON.parse(res.data)
-					console.log(res.data)
 					this.messageList.push({
 						id: 5,
 						message: data.message,
 						type: data.type,
+						viewStyle: data.viewStyle,
 						pic: data.imgUrl,
 					})
 				})
@@ -186,12 +224,12 @@
 		},
 
 		updated() {
-		setTimeout(() => {
-			uni.pageScrollTo({
-				scrollTop: 999999, //滚动到页面的目标位置（单位px）
-				duration: 0 //滚动动画的时长，默认300ms，单位 ms
-			});
-		}, 100)
+			setTimeout(() => {
+				uni.pageScrollTo({
+					scrollTop: 999999, //滚动到页面的目标位置（单位px）
+					duration: 0 //滚动动画的时长，默认300ms，单位 ms
+				});
+			}, 100)
 			// this.onMessage()
 
 		},

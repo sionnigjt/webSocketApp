@@ -1,5 +1,6 @@
 <template>
 	<view class="friend">
+		<uni-nav-bar :border="false" left-icon="left" leftText="返回" rightText="设置" title="标题" />
 		<view class="friend-search">
 			<input type="text" placeholder="搜索好友" v-model="searchText" @input="search" />
 		</view>
