@@ -1,6 +1,6 @@
 <template>
 	<view class="friend">
-		<uni-nav-bar :border="false" left-icon="left" leftText="返回" rightText="设置" title="标题" />
+		<uni-nav-bar @clickLeft="goBack()" @clickRight="goAplyFriend()" :border="false" left-icon="left" leftText="返回"  rightText="通知" title="标题" />
 		<view class="friend-search">
 			<input type="text" placeholder="搜索好友" v-model="searchText" @input="search" />
 		</view>
@@ -119,6 +119,15 @@
 
 				}
 
+			},
+			goAplyFriend(){
+				uni.navigateTo({
+					url:"/pages/addFriend/aplyFriend"
+				})
+			},goBack(){
+				uni.switchTab({
+					url:'/pages/chatlist/chatlist'
+				})
 			}
 		},
 		mounted() {

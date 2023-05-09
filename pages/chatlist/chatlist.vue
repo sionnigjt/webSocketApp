@@ -1,7 +1,7 @@
 <template>
 	<view class="chatlist">
 		
-	<uni-nav-bar  height="80rpx" @clickLeft="gotoUser()" @clickRight="goToAddFriend()" :border="false" left-icon="person" right-icon="plusempty" title="聊天" style="padding-bottom: 5px;"/>
+	<uni-nav-bar background-color="#e3e3e3" color="#555555" height="80rpx" @clickLeft="gotoUser()" @clickRight="goToAddFriend()" :border="false" left-icon="person" right-icon="plusempty" title="聊天" />
 		<!-- 聊天列表 -->
 		<uni-list>
 			<uni-list :border="true" v-for="(item, index) in chatList" :key="index">

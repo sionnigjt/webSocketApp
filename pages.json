@@ -18,6 +18,12 @@
 		    	"navigationBarTitleText": "消息界面"}
 		    
 		},
+		{
+		    "path": "pages/addFriend/aplyFriend",
+		    "style": {
+		    	"navigationBarTitleText": "同意好友请求"}
+		    
+		},
 	
 		{
 		    "path": "pages/addFriend/addFriend",
