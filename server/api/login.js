@@ -9,3 +9,12 @@ export function login (data) {  //登录
 
 
 }
+export function register (data) {  //登录
+	return request({
+		url:'register',
+		method:'post',
+		data:data
+	})
+
+
+}

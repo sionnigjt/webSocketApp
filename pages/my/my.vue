@@ -1,19 +1,24 @@
 <template>
-  <view class="container">
-    <view class="avatar">
-		<img :src="userInfo.img" alt="" srcset="">
+	<view >
+		<uni-nav-bar @clickLeft="goBack()" @clickRight="goAplyFriend()" background-color="#e3e3e3" color="#555555" :border="false" left-icon="left" leftText="返回"  rightText="通知" title="标题" />
+		<view class="container">
+			  
+		  <view class="avatar">
+				<img :src="userInfo.img" alt="" srcset="">
+			</view>
+		  <view class="info">
+		    <view class="name">{{userInfo.name}}</view>
+		    <view class="desc">{{userInfo.signature}}</view>
+		  </view>
+		  <view class="list">
+		    <view class="item" v-for="(item, index) in list" :key="index">
+		      <view class="icon"></view>
+		      <view class="text">{{item}}</view>
+		    </view>
+		  </view>
+		</view>
 	</view>
-    <view class="info">
-      <view class="name">{{userInfo.name}}</view>
-      <view class="desc">{{userInfo.signature}}</view>
-    </view>
-    <view class="list">
-      <view class="item" v-for="(item, index) in list" :key="index">
-        <view class="icon"></view>
-        <view class="text">{{item}}</view>
-      </view>
-    </view>
-  </view>
+ 
 </template>
 
 <script>
@@ -25,7 +30,7 @@ export default {
 			signature: '这个人很懒，什么都没有留下',
 			img:""
 		},
-      list: ['我的订单', '我的收藏', '我的地址', '联系客服']
+      list: ['设置', '我的收藏', '我的地址', '联系客服']
     }
   }
   ,

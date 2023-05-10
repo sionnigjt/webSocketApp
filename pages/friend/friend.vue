@@ -1,6 +1,6 @@
 <template>
 	<view class="friend">
-		<uni-nav-bar @clickLeft="goBack()" @clickRight="goAplyFriend()" :border="false" left-icon="left" leftText="返回"  rightText="通知" title="标题" />
+		<uni-nav-bar @clickLeft="goBack()" @clickRight="goAplyFriend()" background-color="#e3e3e3" color="#555555" :border="false" left-icon="left" leftText="返回"  rightText="通知" title="标题" />
 		<view class="friend-search">
 			<input type="text" placeholder="搜索好友" v-model="searchText" @input="search" />
 		</view>
@@ -13,14 +13,7 @@
 					<view class="friend-name">{{ item.name }}</view>
 				</view>
 			</view>
-			<view class="friend-group">
-				<view class="friend-group-title" @click="toggleGroupList">我的群组{{groupListFolded ? '▼' : '▲'}}</view>
-				<view class="friend-item" v-for="(item, index) in groupList" :key="index" v-show="!groupListFolded"
-					@click="goToGroupChat(item.groupId)">
-					<image class="friend-avatar" :src="item.imgUrl" />
-					<view class="friend-name">{{ item.name }}</view>
-				</view>
-			</view>
+		
 		</view>
 	</view>
 </template>
