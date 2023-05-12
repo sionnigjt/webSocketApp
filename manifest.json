@@ -1,20 +1,19 @@
 {
-    "name" : "uniapp-test",
-    "appid" : "",
+    "name" : "聊天",
+    "appid" : "__UNI__87E41B8",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
-	"h5": {
-		          "devServer" : {
-		                "proxy" : {
-		                    "/api" : {
-		                        "target" : "http://127.0.0.1:8080"              
-		                    }
-		                }
-		        
-		        }
-	},
+    "h5" : {
+        "devServer" : {
+            "proxy" : {
+                "/api" : {
+                    "target" : "http://127.0.0.1:8080"
+                }
+            }
+        }
+    },
     /* 5+App特有相关 */
     "app-plus" : {
         "usingComponents" : true,
@@ -56,9 +55,19 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "ad" : {}
+            },
+            "splashscreen" : {
+                "androidStyle" : "common",
+                "android" : {
+                    "hdpi" : ""
+                }
+            }
         }
     },
     /* 快应用特有相关 */
@@ -80,5 +89,6 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true
-    }
+    },
+    "locale" : "zh-Hans"
 }

@@ -25,39 +25,10 @@
 	export default {
 		data() {
 			return {
-				friendList: [{
-						name: "张三",
-						imgUrl: "https://img.yzcdn.cn/vant/cat.jpeg",
-						friendId: 1,
-					},
-					{
-						name: "李四",
-						imgUrl: "https://img.yzcdn.cn/vant/cat.jpeg",
-						friendId: 2,
-					},
-					{
-						name: "王五",
-						imgUrl: "https://img.yzcdn.cn/vant/cat.jpeg",
-						friendId: 3,
-					},
+				friendList: [
 
 				],
-				groupList: [{
-						name: "前端交流群",
-						imgUrl: "https://img.yzcdn.cn/vant/cat.jpeg",
-						groupId: 1,
-					},
-					{
-						name: "后端交流群",
-						imgUrl: "https://img.yzcdn.cn/vant/cat.jpeg",
-						groupId: 2,
-					},
-					{
-						name: "产品交流群",
-						imgUrl: "https://img.yzcdn.cn/vant/cat.jpeg",
-						groupId: 3,
-					},
-				],
+			
 				oldFriendList:[],
 				oldGroupList:[],
 				friendListFolded: false,
@@ -123,7 +94,7 @@
 				})
 			}
 		},
-		mounted() {
+		onShow() {
 			this.initFirendList();
 		},
 	};
@@ -137,7 +108,8 @@
 	}
 
 	.friend-search {
-		padding: 20rpx;
+		padding: 16rpx;
+		padding-top: 5rpx;
 		background-color: #f5f5f5;
 	}
 

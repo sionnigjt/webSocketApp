@@ -3,7 +3,7 @@
 		
 	<uni-nav-bar background-color="#e3e3e3" color="#555555"  @clickLeft="gotoUser()" @clickRight="goToAddFriend()" :border="false" left-icon="person" right-icon="plusempty" title="聊天" />
 		<!-- 聊天列表 -->
-		<uni-list>
+		<uni-list v-show="chatList.length">
 			<uni-list :border="true" v-for="(item, index) in chatList" :key="index">
 				<!-- 头像显示角标 -->
 				<uni-list-chat :title="item.name" :avatar="item.imgUrl" :note="item.content" :time="formatTime(item.time)"
@@ -24,15 +24,7 @@
 
 		data() {
 			return {
-				chatList: [{
-						id: "",
-						imgUrl: "",
-						name: "",
-						content: "",
-						unread: 0,
-						sendId: 1,
-						time: "",
-					},
+				chatList: [
 
 				],
 				localUserName: '',

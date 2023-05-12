@@ -3,7 +3,7 @@
 	<div class="wrapper">
 		<div class="login">
 			<div class="top">
-				<img src="./rqk.png"><span>chat</span>
+				<img src="http://sion.link:9000/img/2023-05-12/70f165d5-2e58-4b70-a611-9a8a80bae33f.png" alt="" srcset="">chat</img>
 			</div>
 			<div class="form">
 				<input type="text" v-model="userinfo.name" class="text" placeholder="账号" ref="user"><br />

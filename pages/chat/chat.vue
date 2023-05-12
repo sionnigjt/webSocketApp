@@ -69,6 +69,7 @@
 		},
 		methods: {
 			goBack() {
+				uni.$emit('refreshData');
 				uni.navigateBack()
 			},
 			send() {
@@ -133,17 +134,26 @@
 					count: 1,
 					success: function(res) {
 						let tempFilePaths = res.tempFilePaths;
+						uni.showLoading({
+							title:"发送中"
+						})
 						uni.uploadFile({
-							url: 'http://localhost:8080/api/file/uploadFile',
+							url: 'http://sion.link/api/file/uploadFile',
 							filePath: tempFilePaths[0],
 							name: 'file',
 							success: function(res) {
 								pushImgData(res.data)
-							
+								uni.hideLoading()
+								uni.showToast({
+									title:"发送成功",
+									duration:"200",
+									icon:"success"
+								})
 								console.log('uploadFile success, res is:', res);
 							},
 							fail: function({
 								errMsg
+							
 							}) {
 								console.log('uploadFile fail, errMsg is', errMsg);
 							}
@@ -188,7 +198,7 @@
 			}, 1)
 			let userId = uni.getStorageSync('userId');
 			this.socketTask = uni.connectSocket({
-				url: `ws://localhost:8080/api/websocket/${userId}/${this.friendId}`,
+				url: `ws://sion.link/api/websocket/${userId}/${this.friendId}`,
 				success(res) {
 					// 这里是接口调用成功的回调，不是连接成功的回调，请注意
 					console.log(res)
